@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <meta charset="utf-8">
+
+    <body>
+        <br>
+        <h1 style="text-align: center; color: #000000">System odczytywania
+            temperatury w sieci WiFi</h1>
+        <h3 style="text-align: right; margin-right: 5%;">
+            Zuzanna Cymerman 176012 <br>
+        </h3>
+        <br>
+        <div style="margin:0 auto; background-color: #fae4e4;
+            height: 130px; width: 300px">
+            <h2 style="text-align: center; padding: 2%;">Obecna temperatura</h2>
+            <h1 id="temperature" style="text-align: center;color:#090056">null</h1>
+            <br>
+        </div>
+        <script>
+            function changeSensorText(text) {
+                document.getElementById("temperature").innerHTML = text;
+                console.log(text);
+            }
+
+            function runFunction(){
+                httpGetAsync("http://192.168.0.190",changeSensorText);
+            }
+            
+            function httpGetAsync(theUrl, callback)
+            {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() { 
+                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                        callback(xmlHttp.responseText);
+                }
+                xmlHttp.open("GET", theUrl, true);
+                xmlHttp.send(null);    
+            }
+            httpGetAsync("http://192.168.0.190",changeSensorText);
+            var t=setInterval(runFunction,1000);
+        </script>
+    </body>
+</html>
